@@ -1,12 +1,12 @@
-import * as React from "react"
-import { GalleryVerticalEnd, Minus, Plus } from "lucide-react"
+import * as React from "react";
+import { GalleryVerticalEnd, Minus, Plus } from "lucide-react";
 
-import { SearchForm } from "@/components/search-form"
+import { SearchForm } from "@/components/search-form";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 import {
   Sidebar,
   SidebarContent,
@@ -19,152 +19,22 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Building Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
-          url: "#",
-        },
-      ],
-    },
-  ],
+interface SidebarItems {
+  title: string;
+  url: string;
+  items: {
+    title: string;
+    url: string;
+    badge?: string;
+    isActive?: boolean | undefined;
+  }[];
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ sidebarData }: { sidebarData: SidebarItems[] }) {
   return (
-    <Sidebar {...props}>
+    <Sidebar className="fixed left-1 top-2 h-[calc(100%-2rem)] rounded-xl border shadow-md" >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -186,7 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {data.navMain.map((item, index) => (
+            {sidebarData.map((item, index) => (
               <Collapsible
                 key={item.title}
                 defaultOpen={index === 1}
@@ -207,7 +77,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                           <SidebarMenuSubItem key={item.title}>
                             <SidebarMenuSubButton
                               asChild
-                              isActive={item.isActive}
+                              isActive={
+                                "isActive" in item ? item.isActive : false
+                              }
                             >
                               <a href={item.url}>{item.title}</a>
                             </SidebarMenuSubButton>
@@ -224,5 +96,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

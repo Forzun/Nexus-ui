@@ -3,11 +3,10 @@ import { docesConfig } from "@/lib/docs-config";
 
 export default function ComponentsLayout({children} : {children: React.ReactNode}){
 
-  return <div className="min-h-screen w-full flex"> 
-      <Sidebar config={docesConfig.sidebarNav.components} />
-      <main className="flex-1 p-8">
-          {children}
-      </main>
+  return <div className="overflow-hidden"> 
+      <Sidebar config={docesConfig.navMain}>
+        {children}
+      </Sidebar>
   </div>
 }
 

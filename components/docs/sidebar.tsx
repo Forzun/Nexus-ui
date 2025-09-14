@@ -1,42 +1,45 @@
-import Link from "next/link"
-import { cn } from "@/lib/utils"
+import { AppSidebar } from "@/components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 
-interface SidebarItem {
-  title: string
-  href: string
-  badge?: string
+interface SidebarItems {
+  title: string;
+  url: string;
+  items: {
+    title: string;
+    url: string;
+    badge?: string;
+
+    isActive?: boolean | undefined;
+  }[];
 }
 
 interface SidebarProps {
-  config: SidebarItem[]
+  config: SidebarItems[];
 }
 
-export function Sidebar({ config }: SidebarProps) {
+export function Sidebar({ config , children }: { config: SidebarItems[] , children: React.ReactNode}) {
   return (
-    <div className="w-64 border-r bg-background p-6">
-      <div className="space-y-4">
-        <div>
-          <h3 className="mb-2 text-sm font-semibold">Getting Started</h3>
-          <nav className="space-y-1">
-            {config.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-                )}
-              >
-                <span>{item.title}</span>
-                {item.badge && (
-                  <span className="rounded-md bg-primary px-1.5 py-0.5 text-xs text-primary-foreground">
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
+    <div>
+      <SidebarProvider className="">
+        <AppSidebar sidebarData={config} />
+        <SidebarInset className="">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 data-[orientation=vertical]:h-4"
+            />
+          </header>
+          <main className="flex-1 overflow-auto p-2 ">
+            {children}
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
     </div>
-  )
+  );
 }
