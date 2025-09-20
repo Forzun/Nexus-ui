@@ -18,10 +18,6 @@ interface SidebarItems {
   }[];
 }
 
-interface SidebarProps {
-  config: SidebarItems[];
-}
-
 export function Sidebar({ config , children }: { config: SidebarItems[] , children: React.ReactNode}) {
   return (
     <div>
